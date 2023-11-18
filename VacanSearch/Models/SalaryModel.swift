@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SalaryModel {
+struct SalaryModel: Hashable, Decodable {
     let currency: String?
     let from: Int?
     let to: Int?
