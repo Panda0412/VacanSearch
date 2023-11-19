@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct VacanciesListResponse: Decodable {
     let items: [VacancyListCellModel]
@@ -16,7 +17,8 @@ struct VacancyListCellModel: Hashable, Decodable {
     let name: String
     let salary: SalaryModel?
     let employerName: String
-    let employerLogo: String? // TODO: UIImage?
+    let employerLogoUrl: String?
+    var employerLogoImage: UIImage?
     let requirement: String?
     let responsibility: String?
     
@@ -27,7 +29,7 @@ struct VacancyListCellModel: Hashable, Decodable {
     private enum EmployerKeys: String, CodingKey {
         case employerName = "name"
         case logo_urls
-        case employerLogo = "240"
+        case employerLogoUrl = "240"
         case employerOriginalLogo = "original"
     }
     
@@ -35,12 +37,13 @@ struct VacancyListCellModel: Hashable, Decodable {
         case requirement, responsibility
     }
     
-    init(name: String, salary: SalaryModel?, employerName: String, employerLogo: String?, requirement: String?, responsibility: String?) {
+    init(name: String, salary: SalaryModel?, employerName: String, employerLogoUrl: String?, requirement: String?, responsibility: String?) {
         self.id = UUID().uuidString
         self.name = name
         self.salary = salary
         self.employerName = employerName
-        self.employerLogo = employerLogo
+        self.employerLogoUrl = employerLogoUrl
+        self.employerLogoImage = nil
         self.requirement = requirement
         self.responsibility = responsibility
     }
@@ -55,11 +58,13 @@ struct VacancyListCellModel: Hashable, Decodable {
         employerName = try employerContainer.decode(String.self, forKey: .employerName)
         
         if let logoContainer = try? employerContainer.nestedContainer(keyedBy: EmployerKeys.self, forKey: .logo_urls) {
-            employerLogo = try logoContainer.decodeIfPresent(String.self, forKey: .employerLogo)
+            employerLogoUrl = try logoContainer.decodeIfPresent(String.self, forKey: .employerLogoUrl)
                 ?? logoContainer.decodeIfPresent(String.self, forKey: .employerOriginalLogo)
         } else {
-            employerLogo = nil
+            employerLogoUrl = nil
         }
+        
+        employerLogoImage = nil
         
         let snippetContainer = try container.nestedContainer(keyedBy: SnippetKeys.self, forKey: .snippet)
         requirement = try snippetContainer.decodeIfPresent(String.self, forKey: .requirement)

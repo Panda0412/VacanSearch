@@ -16,193 +16,193 @@ var vacanciesArr = [
     VacancyListCellModel(name: "Пусто",
                          salary: nil,
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: nil,
                          responsibility: nil),
     VacancyListCellModel(name: "ЗП",
                          salary: SalaryModel(currency: "RUR", from: 20000, to: 50000, gross: true),
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: nil,
                          responsibility: nil),
     VacancyListCellModel(name: "Требования",
                          salary: nil,
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: "Надо просто спать",
                          responsibility: nil),
     VacancyListCellModel(name: "Обязанности",
                          salary: nil,
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: nil,
                          responsibility: "Высыпаться"),
     VacancyListCellModel(name: "ЗП и Требования",
                          salary: SalaryModel(currency: "RUR", from: 20000, to: 50000, gross: true),
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: "Надо просто спать",
                          responsibility: nil),
     VacancyListCellModel(name: "ЗП и Обязанности",
                          salary: SalaryModel(currency: "RUR", from: 20000, to: 50000, gross: true),
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: nil,
                          responsibility: "Высыпаться"),
     VacancyListCellModel(name: "Требования и Обязанности",
                          salary: nil,
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: "Надо просто спать",
                          responsibility: "Высыпаться"),
     VacancyListCellModel(name: "Полный комплект",
                          salary: SalaryModel(currency: "RUR", from: 20000, to: 50000, gross: true),
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: "Надо просто спать",
                          responsibility: "Высыпаться"),
     VacancyListCellModel(name: "Пусто",
                          salary: nil,
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: nil,
                          responsibility: nil),
     VacancyListCellModel(name: "ЗП",
                          salary: SalaryModel(currency: "RUR", from: 20000, to: 50000, gross: true),
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: nil,
                          responsibility: nil),
     VacancyListCellModel(name: "Требования",
                          salary: nil,
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: "Надо просто спать",
                          responsibility: nil),
     VacancyListCellModel(name: "Обязанности",
                          salary: nil,
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: nil,
                          responsibility: "Высыпаться"),
     VacancyListCellModel(name: "ЗП и Требования",
                          salary: SalaryModel(currency: "RUR", from: 20000, to: 50000, gross: true),
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: "Надо просто спать",
                          responsibility: nil),
     VacancyListCellModel(name: "ЗП и Обязанности",
                          salary: SalaryModel(currency: "RUR", from: 20000, to: 50000, gross: true),
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: nil,
                          responsibility: "Высыпаться"),
     VacancyListCellModel(name: "Требования и Обязанности",
                          salary: nil,
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: "Надо просто спать",
                          responsibility: "Высыпаться"),
     VacancyListCellModel(name: "Полный комплект",
                          salary: SalaryModel(currency: "RUR", from: 20000, to: 50000, gross: true),
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: "Надо просто спать",
                          responsibility: "Высыпаться"),
     VacancyListCellModel(name: "Пусто",
                          salary: nil,
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: nil,
                          responsibility: nil),
     VacancyListCellModel(name: "ЗП",
                          salary: SalaryModel(currency: "RUR", from: 20000, to: 50000, gross: true),
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: nil,
                          responsibility: nil),
     VacancyListCellModel(name: "Требования",
                          salary: nil,
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: "Надо просто спать",
                          responsibility: nil),
     VacancyListCellModel(name: "Обязанности",
                          salary: nil,
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: nil,
                          responsibility: "Высыпаться"),
     VacancyListCellModel(name: "ЗП и Требования",
                          salary: SalaryModel(currency: "RUR", from: 20000, to: 50000, gross: true),
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: "Надо просто спать",
                          responsibility: nil),
     VacancyListCellModel(name: "ЗП и Обязанности",
                          salary: SalaryModel(currency: "RUR", from: 20000, to: 50000, gross: true),
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: nil,
                          responsibility: "Высыпаться"),
     VacancyListCellModel(name: "Требования и Обязанности",
                          salary: nil,
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: "Надо просто спать",
                          responsibility: "Высыпаться"),
     VacancyListCellModel(name: "Полный комплект",
                          salary: SalaryModel(currency: "RUR", from: 20000, to: 50000, gross: true),
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: "Надо просто спать",
                          responsibility: "Высыпаться"),
     VacancyListCellModel(name: "Пусто",
                          salary: nil,
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: nil,
                          responsibility: nil),
     VacancyListCellModel(name: "ЗП",
                          salary: SalaryModel(currency: "RUR", from: 20000, to: 50000, gross: true),
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: nil,
                          responsibility: nil),
     VacancyListCellModel(name: "Требования",
                          salary: nil,
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: "Надо просто спать",
                          responsibility: nil),
     VacancyListCellModel(name: "Обязанности",
                          salary: nil,
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: nil,
                          responsibility: "Высыпаться"),
     VacancyListCellModel(name: "ЗП и Требования",
                          salary: SalaryModel(currency: "RUR", from: 20000, to: 50000, gross: true),
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: "Надо просто спать",
                          responsibility: nil),
     VacancyListCellModel(name: "ЗП и Обязанности",
                          salary: SalaryModel(currency: "RUR", from: 20000, to: 50000, gross: true),
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: nil,
                          responsibility: "Высыпаться"),
     VacancyListCellModel(name: "Требования и Обязанности",
                          salary: nil,
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: "Надо просто спать",
                          responsibility: "Высыпаться"),
     VacancyListCellModel(name: "Полный комплект",
                          salary: SalaryModel(currency: "RUR", from: 20000, to: 50000, gross: true),
                          employerName: "employer",
-                         employerLogo: nil,
+                         employerLogoUrl: nil,
                          requirement: "Надо просто спать",
                          responsibility: "Высыпаться"),
 ]
@@ -232,10 +232,11 @@ class VacanciesListViewController: UIViewController {
     // MARK: - Setup
     
     private func setupUI() {
-        view.backgroundColor = .systemBackground
         navigationItem.title = "VacanSearch"
-        navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.backButtonTitle = "Back"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
+        vacanciesTableView.backgroundColor = .systemGroupedBackground
         
         vacanciesTableView.translatesAutoresizingMaskIntoConstraints = false
         vacanciesTableView.showsVerticalScrollIndicator = false
@@ -281,7 +282,7 @@ class VacanciesListViewController: UIViewController {
         }
         
         guard let url = URL(string: "https://api.hh.ru/vacancies?per_page=100&page=\(pageNumber)&order_by=publication_time") else {
-            print("url error")
+            print("[vacancies] url error")
             return
         }
         let request = URLRequest(url: url)
@@ -290,12 +291,12 @@ class VacanciesListViewController: UIViewController {
             guard let self else { return }
             
             guard error == nil, let data else {
-                if let error { print("error:", error) }
+                if let error { print("[vacancies] error:", error) }
                 return
             }
             
             if let response = response as? HTTPURLResponse, response.statusCode == 400 {
-                print("you can't look up more than 2000 items in the list")
+                print("[vacancies] you can't look up more than 2000 items in the list")
                 return
             }
             
@@ -306,7 +307,7 @@ class VacanciesListViewController: UIViewController {
                     self.setupDataSource(vacanciesResponse.items)
                 }
             } catch {
-                print("decode error:", error.localizedDescription)
+                print("[vacancies] decode error:", error.localizedDescription)
             }
             
             self.pageNumber += 1
@@ -325,6 +326,14 @@ extension VacanciesListViewController: UITableViewDelegate {
     }
 }
 
+extension VacanciesListViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else { return }
+        print(text)
+        print(text.trimmingCharacters(in: .whitespaces), text.trimmingCharacters(in: .whitespaces).count, text.trimmingCharacters(in: .whitespaces).isEmpty)
+    }
+}
+
 // MARK: - Data source
 
 final class VacanciesListDataSource: UITableViewDiffableDataSource<Int, VacancyListCellModel> {
@@ -335,6 +344,34 @@ final class VacanciesListDataSource: UITableViewDiffableDataSource<Int, VacancyL
             }
             
             cell.configure(with: itemIdentifier)
+            
+            if itemIdentifier.employerLogoImage != nil || itemIdentifier.employerLogoUrl == nil {
+                return cell
+            }
+            
+            DispatchQueue.global().async {
+                print("logo for", itemIdentifier.name)
+                guard let urlString = itemIdentifier.employerLogoUrl, let url = URL(string: urlString) else {
+                    print("[employerLogo] url error, employerLogoUrl:", itemIdentifier.employerLogoUrl)
+                    return
+                }
+                let request = URLRequest(url: url)
+                        
+                URLSession.shared.dataTask(with: request) { data, _, error in
+                    guard error == nil, let data else {
+                        if let error { print("[employerLogo] error:", error) }
+                        return
+                    }
+                    
+                    print("Recieve logo for", itemIdentifier.name)
+                    
+                    DispatchQueue.main.async {
+                        var model = itemIdentifier
+                        model.employerLogoImage = UIImage(data: data)
+                        cell.configure(with: model)
+                    }
+                }.resume()
+            }
             
             return cell
         }
