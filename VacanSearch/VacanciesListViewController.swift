@@ -214,6 +214,13 @@ class VacanciesListViewController: UIViewController {
         
         setupUI()
         setupDataSource(vacanciesArr)
+        
+        let searchController = UISearchController()
+        
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.placeholder = "Введите название вакансии"
+        
+        navigationItem.searchController = searchController
     }
     
     // MARK: - Properties
