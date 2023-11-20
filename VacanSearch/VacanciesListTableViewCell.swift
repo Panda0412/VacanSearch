@@ -318,7 +318,6 @@ class VacanciesListTableViewCell: UITableViewCell {
         setupMainInfoStackView(salary: model.salary)
         
         if model.employerLogoImage != nil || model.employerLogoUrl != nil {
-            //            print(model.name, model.employerLogoImage != nil, model.employerLogoUrl!, hasAdditionalInfo)
             setupLogoView(with: model.employerLogoImage, hasAdditionalInfo: hasAdditionalInfo)
         } else {
             vacancyCardView.addArrangedSubview(mainInfoStackView)

@@ -9,6 +9,6 @@ import Foundation
 import Combine
 
 protocol APIServiceProtocol {
-    func getVacancies() -> AnyPublisher<[VacancyListCellModel], Error>
+    func getVacancies(for: String?, needResetPageCounter: Bool) -> AnyPublisher<[VacancyListCellModel], Error>
     func getCompanyLogo(for: String) -> AnyPublisher<Data, Error>
 }

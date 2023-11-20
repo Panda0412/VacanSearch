@@ -12,13 +12,14 @@ class APIService: APIServiceProtocol {
     static let shared = APIService()
     
     private let urlSession = URLSession.shared
-    private var pageNumber = -1
-    
-    func getVacancies() -> AnyPublisher<[VacancyListCellModel], Error> {
-        pageNumber += 1
-        print("getVacancies", pageNumber)
+    private var pageNumber = 0
+    private var queryString = ""
+
+    func getVacancies(for query: String? = nil, needResetPageCounter: Bool = false) -> AnyPublisher<[VacancyListCellModel], Error> {
+        pageNumber = needResetPageCounter ? 0 : pageNumber + 1
+        if let query { queryString = query }
         
-        return makeUrl(path: "https://api.hh.ru/vacancies?per_page=20&page=\(pageNumber)&order_by=publication_time")
+        return makeUrl(path: "https://api.hh.ru/vacancies?per_page=20&page=\(pageNumber)&text=\(queryString)&order_by=publication_time")
             .flatMap {
                 let request = URLRequest(url: $0)
                 return Just(request).setFailureType(to: Error.self)

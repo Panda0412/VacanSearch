@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 private enum Constants {
     static let rowHeight: CGFloat = 76
@@ -213,14 +214,8 @@ class VacanciesListViewController: UIViewController {
         super.viewDidLoad()
         
         setupUI()
+        setupSearchController()
         setupDataSource(vacanciesArr)
-        
-        let searchController = UISearchController()
-        
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.placeholder = "Введите название вакансии"
-        
-        navigationItem.searchController = searchController
     }
     
     // MARK: - Properties
@@ -228,13 +223,39 @@ class VacanciesListViewController: UIViewController {
     private var vacancies = [VacancyListCellModel]()
     private var isUpdating = false
     private var pageNumber = 0
-
+    
     private lazy var vacanciesTableView = UITableView()
     private lazy var dataSource = VacanciesListDataSource(vacanciesTableView)
     
-    private let refreshControl = UIRefreshControl()
+    private var cancellable = [AnyCancellable]()
     
     // MARK: - Setup
+    
+    private func setupSearchController() {
+        let searchController = UISearchController()
+        
+        searchController.searchBar.placeholder = "Введите название вакансии"
+        
+        navigationItem.searchController = searchController
+        
+        NotificationCenter.default.publisher(for: UISearchTextField.textDidChangeNotification, object: searchController.searchBar.searchTextField)
+            .map {
+                ($0.object as! UISearchTextField).text ?? ""
+            }
+            .filter { $0.trimmingCharacters(in: .whitespaces).count >= 3 }
+            .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+            .sink { result in
+                switch result {
+                    case .finished: break
+                    case .failure(let error):
+                        print(error)
+                }
+            } receiveValue: { [weak self] searchText in
+                guard let self else { return }
+                self.getVacancies(isNewSearch: true, query: searchText)
+            }
+            .store(in: &cancellable)
+    }
     
     private func setupUI() {
         navigationItem.title = "VacanSearch"
@@ -260,9 +281,6 @@ class VacanciesListViewController: UIViewController {
         
         vacanciesTableView.register(VacanciesListTableViewCell.self, forCellReuseIdentifier: Constants.cellIdentifier)
         vacanciesTableView.delegate = self
-        
-        vacanciesTableView.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
     }
     
     // MARK: - Helpers
@@ -277,12 +295,9 @@ class VacanciesListViewController: UIViewController {
         dataSource.apply(snapshot)
     }
     
-    @objc private func refreshData() {
-        defer {
-            self.refreshControl.endRefreshing()
-        }
-        
-        let _ = APIService.shared.getVacancies()
+    private func getVacancies(isNewSearch: Bool, query: String? = nil) {
+        isUpdating = true
+        APIService.shared.getVacancies(for: query, needResetPageCounter: isNewSearch)
             .subscribe(on: DispatchQueue.global(qos: .userInitiated))
             .receive(on: DispatchQueue.main)
             .sink { result in
@@ -292,9 +307,20 @@ class VacanciesListViewController: UIViewController {
                         print(error)
                 }
             } receiveValue: { vacancies in
-                self.vacancies = vacancies
+                if isNewSearch {
+                    self.vacancies = vacancies
+                } else {
+                    for vacancy in vacancies {
+                        if !self.vacancies.contains(vacancy) {
+                            self.vacancies.append(vacancy)
+                        }
+                    }
+                }
+                
+                self.isUpdating = false
                 self.setupDataSource(self.vacancies)
             }
+            .store(in: &cancellable)
     }
 }
 
@@ -313,35 +339,8 @@ extension VacanciesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == vacancies.count - 6 && !isUpdating {
-            isUpdating = true
-            let _ = APIService.shared.getVacancies()
-                .subscribe(on: DispatchQueue.global(qos: .userInitiated))
-                .receive(on: DispatchQueue.main)
-                .sink { result in
-                    switch result {
-                        case .finished: break
-                        case .failure(let error):
-                            print(error)
-                    }
-                } receiveValue: { [weak self] vacancies in
-                    guard let self else { return }
-                    for vacancy in vacancies {
-                        if !self.vacancies.contains(vacancy) {
-                            self.vacancies.append(vacancy)
-                        }
-                    }
-                    self.setupDataSource(self.vacancies)
-                    self.isUpdating = false
-                }
+            getVacancies(isNewSearch: false)
         }
-    }
-}
-
-extension VacanciesListViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else { return }
-        print(text)
-        print(text.trimmingCharacters(in: .whitespaces), text.trimmingCharacters(in: .whitespaces).count, text.trimmingCharacters(in: .whitespaces).isEmpty)
     }
 }
 
