@@ -8,7 +8,7 @@
 import UIKit
 
 private enum Constants {
-    static let logoSize: CGFloat = 100
+    static let logoSize: CGFloat = 70
     
     static let cornerRadius: CGFloat = 16
     
@@ -27,14 +27,12 @@ class VacanciesListTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        setupUI()
+        setupCard()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Properties
     
     // MARK: - UI Elements
     
@@ -49,7 +47,7 @@ class VacanciesListTableViewCell: UITableViewCell {
         card.axis = .vertical
         card.alignment = .center
         card.spacing = Constants.spacing * 2
-
+        
         return card
     }()
     
@@ -73,7 +71,7 @@ class VacanciesListTableViewCell: UITableViewCell {
         
         logo.layer.cornerRadius = Constants.logoSize / 2
         logo.layer.masksToBounds = true
-        logo.contentMode = .scaleAspectFill
+        logo.contentMode = .scaleAspectFit
         
         logo.layer.borderColor = UIColor.separator.cgColor
         logo.layer.borderWidth = 0.5
@@ -190,9 +188,10 @@ class VacanciesListTableViewCell: UITableViewCell {
         if companyLogo.image != nil {
             companyLogo.image = nil
             companyLogo.removeFromSuperview()
-            mainInfoStackView.removeFromSuperview()
             mainInfoBlockView.removeFromSuperview()
         }
+        
+        mainInfoStackView.removeFromSuperview()
         
         salaryLabel.text = nil
         salaryLabel.removeFromSuperview()
@@ -206,7 +205,7 @@ class VacanciesListTableViewCell: UITableViewCell {
         responsibilityInfoStackView.layoutMargins.bottom = 0
     }
     
-    private func setupUI() {
+    private func setupCard() {
         contentView.backgroundColor = .systemGroupedBackground
         
         [
@@ -234,52 +233,10 @@ class VacanciesListTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(with model: VacancyListCellModel) {
-        let hasAdditionalInfo = model.requirement != nil || model.responsibility != nil
-        
-        if let logo = model.employerLogoImage {
-            prepareForReuse()
-            
-            companyLogo.image = logo
-            
-            mainInfoBlockView.addSubview(companyLogo)
-            mainInfoBlockView.addSubview(mainInfoStackView)
-            
-            vacancyCardView.addArrangedSubview(mainInfoBlockView)
-            
-            let infoBlockViewHeight = Constants.logoSize + (hasAdditionalInfo ? Constants.padding : Constants.logoSize + Constants.padding * 2)
-                        
-            NSLayoutConstraint.activate([
-                mainInfoBlockView.widthAnchor.constraint(equalTo: vacancyCardView.widthAnchor),
-
-                companyLogo.heightAnchor.constraint(equalToConstant: Constants.logoSize),
-                companyLogo.widthAnchor.constraint(equalTo: companyLogo.heightAnchor),
-                companyLogo.leadingAnchor.constraint(equalTo: mainInfoBlockView.leadingAnchor, constant: Constants.padding),
-                companyLogo.trailingAnchor.constraint(equalTo: mainInfoStackView.leadingAnchor),
-                companyLogo.topAnchor.constraint(greaterThanOrEqualTo: mainInfoBlockView.topAnchor, constant: Constants.padding),
-                companyLogo.centerYAnchor.constraint(
-                    equalTo: mainInfoBlockView.centerYAnchor,
-                    constant: hasAdditionalInfo ? Constants.padding / 2 : 0
-                ),
-                
-                mainInfoStackView.centerYAnchor.constraint(equalTo: mainInfoBlockView.centerYAnchor),
-                mainInfoStackView.heightAnchor.constraint(lessThanOrEqualTo: mainInfoBlockView.heightAnchor),
-                mainInfoStackView.trailingAnchor.constraint(equalTo: mainInfoBlockView.trailingAnchor),
-            ])
-        } else {
-            vacancyCardView.addArrangedSubview(mainInfoStackView)
-            
-            NSLayoutConstraint.activate([
-                mainInfoStackView.widthAnchor.constraint(equalTo: vacancyCardView.widthAnchor),
-            ])
-        }
-        
-        nameLabel.text = model.name
-        companyLabel.text = model.employerName
-        
+    func setupMainInfoStackView(salary: SalaryModel?) {
         mainInfoStackView.addArrangedSubview(nameLabel)
         
-        if let salary = model.salary {
+        if let salary {
             salaryLabel.text = ""
             
             if let from = salary.from { salaryLabel.text?.append("от \(from) ") }
@@ -295,38 +252,80 @@ class VacanciesListTableViewCell: UITableViewCell {
         }
         
         mainInfoStackView.addArrangedSubview(companyLabel)
+    }
+    
+    func setupLogoView(with logo: UIImage?, hasAdditionalInfo: Bool) {
+        companyLogo.image = logo
         
-        if hasAdditionalInfo {
-            vacancyCardView.addArrangedSubview(separator)
-            
-            mainInfoStackView.layoutMargins.bottom = 0
-            
-            NSLayoutConstraint.activate([
-                separator.heightAnchor.constraint(equalToConstant: 0.7),
-                separator.widthAnchor.constraint(equalTo: vacancyCardView.widthAnchor, multiplier: 0.6),
-                separator.centerXAnchor.constraint(equalTo: vacancyCardView.centerXAnchor),
-            ])
-        }
+        mainInfoBlockView.addSubview(companyLogo)
+        mainInfoBlockView.addSubview(mainInfoStackView)
         
-        if let requirement = model.requirement {
+        vacancyCardView.addArrangedSubview(mainInfoBlockView)
+        
+        NSLayoutConstraint.activate([
+            mainInfoBlockView.widthAnchor.constraint(equalTo: vacancyCardView.widthAnchor),
+            
+            companyLogo.heightAnchor.constraint(equalToConstant: Constants.logoSize),
+            companyLogo.widthAnchor.constraint(equalTo: companyLogo.heightAnchor),
+            companyLogo.leadingAnchor.constraint(equalTo: mainInfoBlockView.leadingAnchor, constant: Constants.padding),
+            companyLogo.trailingAnchor.constraint(equalTo: mainInfoStackView.leadingAnchor),
+            companyLogo.topAnchor.constraint(greaterThanOrEqualTo: mainInfoBlockView.topAnchor, constant: Constants.padding),
+            companyLogo.centerYAnchor.constraint(
+                equalTo: mainInfoBlockView.centerYAnchor,
+                constant: hasAdditionalInfo ? Constants.padding / 2 : 0
+            ),
+            
+            mainInfoStackView.centerYAnchor.constraint(equalTo: mainInfoBlockView.centerYAnchor),
+            mainInfoStackView.heightAnchor.constraint(lessThanOrEqualTo: mainInfoBlockView.heightAnchor),
+            mainInfoStackView.trailingAnchor.constraint(equalTo: mainInfoBlockView.trailingAnchor),
+        ])
+    }
+    
+    func setupAdditionalInfo(requirement: String?, responsibility: String?) {
+        vacancyCardView.addArrangedSubview(separator)
+        mainInfoStackView.layoutMargins.bottom = 0
+        
+        NSLayoutConstraint.activate([
+            separator.heightAnchor.constraint(equalToConstant: 0.7),
+            separator.widthAnchor.constraint(equalTo: vacancyCardView.widthAnchor, multiplier: 0.6),
+            separator.centerXAnchor.constraint(equalTo: vacancyCardView.centerXAnchor),
+        ])
+        
+        if let requirement {
             requirementLabel.text = requirement
             vacancyCardView.addArrangedSubview(requirementInfoStackView)
             
-            NSLayoutConstraint.activate([
-                requirementInfoStackView.widthAnchor.constraint(equalTo: vacancyCardView.widthAnchor),
-            ])
+            requirementInfoStackView.widthAnchor.constraint(equalTo: vacancyCardView.widthAnchor).isActive = true
         }
         
-        if let responsibility = model.responsibility {
+        if let responsibility {
             responsibilityLabel.text = responsibility
             vacancyCardView.addArrangedSubview(responsibilityInfoStackView)
             
             requirementInfoStackView.layoutMargins.bottom = Constants.spacing
             responsibilityInfoStackView.layoutMargins.bottom = Constants.padding
             
-            NSLayoutConstraint.activate([
-                responsibilityInfoStackView.widthAnchor.constraint(equalTo: vacancyCardView.widthAnchor),
-            ])
+            responsibilityInfoStackView.widthAnchor.constraint(equalTo: vacancyCardView.widthAnchor).isActive = true
+        }
+    }
+    
+    func configure(with model: VacancyListCellModel) {
+        let hasAdditionalInfo = model.requirement != nil || model.responsibility != nil
+        
+        nameLabel.text = model.name
+        companyLabel.text = model.employerName
+        
+        setupMainInfoStackView(salary: model.salary)
+        
+        if model.employerLogoImage != nil || model.employerLogoUrl != nil {
+            setupLogoView(with: model.employerLogoImage, hasAdditionalInfo: hasAdditionalInfo)
+        } else {
+            vacancyCardView.addArrangedSubview(mainInfoStackView)
+            mainInfoStackView.widthAnchor.constraint(equalTo: vacancyCardView.widthAnchor).isActive = true
+        }
+        
+        if hasAdditionalInfo {
+            setupAdditionalInfo(requirement: model.requirement, responsibility: model.responsibility)
         }
     }
 }
