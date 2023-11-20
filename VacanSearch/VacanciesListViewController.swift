@@ -302,8 +302,11 @@ class VacanciesListViewController: UIViewController {
 
 extension VacanciesListViewController: UITableViewDelegate {    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("selected row: \(indexPath)")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        let cell = tableView.cellForRow(at: indexPath) as? VacanciesListTableViewCell
+        cell?.setSelected()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            cell?.deselect()
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }

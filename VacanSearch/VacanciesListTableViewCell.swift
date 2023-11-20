@@ -233,7 +233,7 @@ class VacanciesListTableViewCell: UITableViewCell {
         ])
     }
     
-    func setupMainInfoStackView(salary: SalaryModel?) {
+    private func setupMainInfoStackView(salary: SalaryModel?) {
         mainInfoStackView.addArrangedSubview(nameLabel)
         
         if let salary {
@@ -254,7 +254,7 @@ class VacanciesListTableViewCell: UITableViewCell {
         mainInfoStackView.addArrangedSubview(companyLabel)
     }
     
-    func setupLogoView(with logo: UIImage?, hasAdditionalInfo: Bool) {
+    private func setupLogoView(with logo: UIImage?, hasAdditionalInfo: Bool) {
         companyLogo.image = logo
         
         mainInfoBlockView.addSubview(companyLogo)
@@ -281,7 +281,7 @@ class VacanciesListTableViewCell: UITableViewCell {
         ])
     }
     
-    func setupAdditionalInfo(requirement: String?, responsibility: String?) {
+    private func setupAdditionalInfo(requirement: String?, responsibility: String?) {
         vacancyCardView.addArrangedSubview(separator)
         mainInfoStackView.layoutMargins.bottom = 0
         
@@ -318,6 +318,7 @@ class VacanciesListTableViewCell: UITableViewCell {
         setupMainInfoStackView(salary: model.salary)
         
         if model.employerLogoImage != nil || model.employerLogoUrl != nil {
+            //            print(model.name, model.employerLogoImage != nil, model.employerLogoUrl!, hasAdditionalInfo)
             setupLogoView(with: model.employerLogoImage, hasAdditionalInfo: hasAdditionalInfo)
         } else {
             vacancyCardView.addArrangedSubview(mainInfoStackView)
@@ -326,6 +327,20 @@ class VacanciesListTableViewCell: UITableViewCell {
         
         if hasAdditionalInfo {
             setupAdditionalInfo(requirement: model.requirement, responsibility: model.responsibility)
+        }
+    }
+    
+    func setSelected() {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self else { return }
+            self.vacancyCardView.backgroundColor = .tertiarySystemFill
+        }
+    }
+    
+    func deselect() {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self else { return }
+            self.vacancyCardView.backgroundColor = .secondarySystemGroupedBackground
         }
     }
 }
