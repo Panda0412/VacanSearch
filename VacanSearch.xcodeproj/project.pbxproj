@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD2EF8672B0B70B300B0E6DB /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2EF8662B0B70B300B0E6DB /* APIService.swift */; };
+		CD2EF8692B0B711500B0E6DB /* APIServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2EF8682B0B711500B0E6DB /* APIServiceProtocol.swift */; };
 		CD8111192B07B8B3009E8CC7 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8111182B07B8B3009E8CC7 /* Currency.swift */; };
 		CDBE8BA62B039EE700DA46E8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDBE8BA52B039EE700DA46E8 /* AppDelegate.swift */; };
 		CDBE8BA82B039EE700DA46E8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDBE8BA72B039EE700DA46E8 /* SceneDelegate.swift */; };
@@ -21,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CD2EF8662B0B70B300B0E6DB /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		CD2EF8682B0B711500B0E6DB /* APIServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServiceProtocol.swift; sourceTree = "<group>"; };
 		CD8111182B07B8B3009E8CC7 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		CDBE8BA22B039EE700DA46E8 /* VacanSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VacanSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDBE8BA52B039EE700DA46E8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -47,6 +51,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CD2EF8652B0B705D00B0E6DB /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				CD2EF8662B0B70B300B0E6DB /* APIService.swift */,
+				CD2EF8682B0B711500B0E6DB /* APIServiceProtocol.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		CDBE8B992B039EE700DA46E8 = {
 			isa = PBXGroup;
 			children = (
@@ -67,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				CDBE8BBB2B03B57700DA46E8 /* Models */,
+				CD2EF8652B0B705D00B0E6DB /* Services */,
 				CDBE8BA52B039EE700DA46E8 /* AppDelegate.swift */,
 				CDBE8BA72B039EE700DA46E8 /* SceneDelegate.swift */,
 				CDBE8BAE2B039EE900DA46E8 /* Assets.xcassets */,
@@ -166,6 +180,8 @@
 				CDBE8BBF2B03BB5700DA46E8 /* SalaryModel.swift in Sources */,
 				CDBE8BC82B05336C00DA46E8 /* VacanciesListViewController.swift in Sources */,
 				CDBE8BA62B039EE700DA46E8 /* AppDelegate.swift in Sources */,
+				CD2EF8672B0B70B300B0E6DB /* APIService.swift in Sources */,
+				CD2EF8692B0B711500B0E6DB /* APIServiceProtocol.swift in Sources */,
 				CDBE8BC52B03F64400DA46E8 /* AddressModel.swift in Sources */,
 				CDBE8BA82B039EE700DA46E8 /* SceneDelegate.swift in Sources */,
 				CDBE8BCA2B05368C00DA46E8 /* VacanciesListTableViewCell.swift in Sources */,

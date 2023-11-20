@@ -225,16 +225,14 @@ class VacanciesListViewController: UIViewController {
     
     // MARK: - Properties
     
+    private var vacancies = [VacancyListCellModel]()
+    private var isUpdating = false
+    private var pageNumber = 0
+
     private lazy var vacanciesTableView = UITableView()
     private lazy var dataSource = VacanciesListDataSource(vacanciesTableView)
     
     private let refreshControl = UIRefreshControl()
-    
-    private var pageNumber = 0
-    
-    // MARK: - UI Elements
-    
-    
     
     // MARK: - Setup
     
@@ -281,44 +279,22 @@ class VacanciesListViewController: UIViewController {
     
     @objc private func refreshData() {
         defer {
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                
-                self.refreshControl.endRefreshing()
-            }
+            self.refreshControl.endRefreshing()
         }
         
-        guard let url = URL(string: "https://api.hh.ru/vacancies?per_page=100&page=\(pageNumber)&order_by=publication_time") else {
-            print("[vacancies] url error")
-            return
-        }
-        let request = URLRequest(url: url)
-        
-        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-            guard let self else { return }
-            
-            guard error == nil, let data else {
-                if let error { print("[vacancies] error:", error) }
-                return
-            }
-            
-            if let response = response as? HTTPURLResponse, response.statusCode == 400 {
-                print("[vacancies] you can't look up more than 2000 items in the list")
-                return
-            }
-            
-            do {
-                let vacanciesResponse = try JSONDecoder().decode(VacanciesListResponse.self, from: data)
-                
-                DispatchQueue.main.async {
-                    self.setupDataSource(vacanciesResponse.items)
+        let _ = APIService.shared.getVacancies()
+            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
+            .receive(on: DispatchQueue.main)
+            .sink { result in
+                switch result {
+                    case .finished: break
+                    case .failure(let error):
+                        print(error)
                 }
-            } catch {
-                print("[vacancies] decode error:", error.localizedDescription)
+            } receiveValue: { vacancies in
+                self.vacancies = vacancies
+                self.setupDataSource(self.vacancies)
             }
-            
-            self.pageNumber += 1
-        }.resume()
     }
 }
 
@@ -329,6 +305,31 @@ extension VacanciesListViewController: UITableViewDelegate {
         print("selected row: \(indexPath)")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             tableView.deselectRow(at: indexPath, animated: true)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == vacancies.count - 6 && !isUpdating {
+            isUpdating = true
+            let _ = APIService.shared.getVacancies()
+                .subscribe(on: DispatchQueue.global(qos: .userInitiated))
+                .receive(on: DispatchQueue.main)
+                .sink { result in
+                    switch result {
+                        case .finished: break
+                        case .failure(let error):
+                            print(error)
+                    }
+                } receiveValue: { [weak self] vacancies in
+                    guard let self else { return }
+                    for vacancy in vacancies {
+                        if !self.vacancies.contains(vacancy) {
+                            self.vacancies.append(vacancy)
+                        }
+                    }
+                    self.setupDataSource(self.vacancies)
+                    self.isUpdating = false
+                }
         }
     }
 }
@@ -356,28 +357,21 @@ final class VacanciesListDataSource: UITableViewDiffableDataSource<Int, VacancyL
                 return cell
             }
             
-            DispatchQueue.global().async {
-                print("logo for", itemIdentifier.name)
-                guard let urlString = itemIdentifier.employerLogoUrl, let url = URL(string: urlString) else {
-                    print("[employerLogo] url error, employerLogoUrl:", itemIdentifier.employerLogoUrl)
-                    return
-                }
-                let request = URLRequest(url: url)
-                        
-                URLSession.shared.dataTask(with: request) { data, _, error in
-                    guard error == nil, let data else {
-                        if let error { print("[employerLogo] error:", error) }
-                        return
-                    }
-                    
-                    print("Recieve logo for", itemIdentifier.name)
-                    
-                    DispatchQueue.main.async {
+            if let logoUrlString = itemIdentifier.employerLogoUrl {
+                let _ = APIService.shared.getCompanyLogo(for: logoUrlString)
+                    .subscribe(on: DispatchQueue.global(qos: .userInitiated))
+                    .receive(on: DispatchQueue.main)
+                    .sink { result in
+                        switch result {
+                            case .finished: break
+                            case .failure(let error):
+                                print(error)
+                        }
+                    } receiveValue: { logo in
                         var model = itemIdentifier
-                        model.employerLogoImage = UIImage(data: data)
+                        model.employerLogoImage = UIImage(data: logo)
                         cell.configure(with: model)
                     }
-                }.resume()
             }
             
             return cell
